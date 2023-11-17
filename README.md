@@ -1,1 +1,1 @@
-# docu-pedia-hub
+# docupedia-hub
