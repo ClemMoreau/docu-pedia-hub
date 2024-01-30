@@ -1,0 +1,11 @@
+.highlight-text {
+    font-weight: bold;
+}
+
+[data-theme='dark'] .highlight-text {
+    color: #72baee;
+}
+
+[data-theme='light'] .highlight-text {
+    color: #005b96;
+}
