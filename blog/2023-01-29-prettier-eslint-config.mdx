@@ -1,0 +1,132 @@
+---
+slug: setup-ESLint-prettier-vscode
+title: Setup ESLint/Prettier on VS Code
+authors: [root]
+tags: [prettier, ESLint, vscode, config]
+---
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+## What are ESLint and Prettier ?
+
+<Highlight>ESLint</Highlight> and <Highlight>Prettier</Highlight> are two very usefull
+tools that help you to write <u>**better code**</u> ! <br />
+Let's wee how to setup them on [VS Code](https://code.visualstudio.com/) to
+automatically format your code.
+
+{/* truncate */}
+
+- [ESLint](https://eslint.org/) is a code linter that check your code for problems and bad practice.
+- [Prettier](https://prettier.io/) is a code formatter to ensure you follow some code styling rules.
+
+In this tutorial we will focus on **ESLint and Prettier pluging in VS Code**. <br/>
+This assume that you <u>already create a TypeScript projet</u> and want to add code styling rules to it.
+
+## <Highlight>1. ESLint Configuration</Highlight>
+
+<Tabs id="install-scope">
+  <TabItem value="local" label="Local">
+    First, install **ESLint**, its **Typescript plugin** and the **related parser**:
+
+    ```bash
+    yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --dev
+    ```
+
+    Then, create a <Highlight>`.eslintrc.json`</Highlight> and add some **basic ESLint Typescript configuration** :
+
+    ```json title=".eslintrc.json"
+    {
+      "env": {
+        "browser": true,
+        "es2024": true
+      },
+      "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+      },
+      "plugins": ["@typescript-eslint"]
+    }
+    ```
+
+    Finally, create a new <Highlight>`.vscode`</Highlight> folder at the root of your project.  <br/>
+    This allow you to edit workspace settings configuration file <Highlight>`.vscode/settings.json`</Highlight> to have ESLint <Highlight><u>auto-fix your fixable problems on save</u></Highlight> :
+
+    ```json title=".vscode/settings.json"
+    {
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      }
+    }
+    ```
+
+  </TabItem>
+  <TabItem value="global" label="Global">
+
+  </TabItem>
+</Tabs>
+
+### <Highlight>2. Prettier Configuration</Highlight>
+
+<Tabs id="install-scope">
+  <TabItem value="local" label="Local">
+    After setup ESLint, install **Prettier** and the **related ESLint plugin** :
+
+    ```bash
+      yarn add prettier eslint-config-prettier --dev
+    ```
+    The <Highlight>eslint-config-prettier</Highlight> ensures there will be <Highlight><u>no conflicts between ESLint and Prettier rules</u></Highlight>.
+
+    Then, edit the <Highlight>`.eslintrc.json`</Highlight> to use this plugin :
+
+    ```json title=".eslintrc.json"
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+      ],
+    ```
+
+    Then, edit the <Highlight>`.vscode/settings.json`</Highlight> file to **enable auto-formatting on save**:
+
+    ```json title=".vscode/settings.json"
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    ```
+
+    Finally, create a <Highlight>`.prettierrc.json`</Highlight> file at the root of your project and add some **basic Prettier configuration** :
+
+    ```json title=".prettierrc.json"
+      {
+        "semi": true,
+        "trailingComma": "none",
+        "singleQuote": true,
+        "printWidth": 80
+      }
+    ```
+
+  </TabItem>
+  <TabItem value="global" label="Global">
+
+  </TabItem>
+</Tabs>
+
+### <Highlight>3. Let the magic operate</Highlight>
+
+**ESLint** and **Prettier** are ready to use ! <br/>
+You can now <Highlight><u>format any Typescript file by saving it !</u></Highlight>
+
+### <Highlight>Additionnally</Highlight>
+
+You can customise your formatting style by adding some rules ! <br/>
+Just edit any ESLint rules by editing the <Highlight>`.eslintrc.json`</Highlight> file:
+
+```json .eslintrc.json
+{
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
+}
+```
